@@ -62,6 +62,11 @@ fun Array<Int>.arrayMaxAndMin(){
 }
 
 fun Array<Int>.kThLargestAndSmallestInArray(k:Int){
+    /**
+     * Finds and prints kth max and min element in the array
+     * Time Complexity - O(nlog(n))
+     * Space Complexity - same
+     */
     var arr=this
     arr.sort()
     var max=0;var min=0

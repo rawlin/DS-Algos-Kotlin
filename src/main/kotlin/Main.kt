@@ -2,10 +2,10 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 fun main(){
-    val arr= arrayOf(1,2,3,4)
+    val arr= arrayOf(1,2,3,4,5,6,7,8,9)
 
-    arr.reverseArray()
-    arr.forEach { i -> print(i)  }
+    arr.kThLargestAndSmallestInArray(readLine()?.toInt() ?:1)
+
 
 }
 
@@ -37,6 +37,38 @@ fun Array<Int>.reverseArray(){
         this[i]=this[this.size-i-1]
         this[this.size-i-1]=temp
     }
+}
+
+fun Array<Int>.arrayMaxAndMin(){
+    /**
+     * Finds max and min of an array and prints the values
+     * Time complexity - O(n)
+     * Space complexity - O(n)
+     */
+
+    var arr=this
+    var max=0; var min=0
+    for (i in arr.indices){
+        min=arr[0]
+        max=arr[0]
+        if(min>arr[i]){
+            min=arr[i]
+        }
+        if (max<arr[i]){
+            max=arr[i]
+        }
+    }
+    print(max.toString()+" "+min.toString())
+}
+
+fun Array<Int>.kThLargestAndSmallestInArray(k:Int){
+    var arr=this
+    arr.sort()
+    var max=0;var min=0
+    max=arr[arr.size-k]
+    min=arr[k]
+
+    print(max.toString()+" "+min.toString())
 }
 
 

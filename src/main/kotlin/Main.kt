@@ -1,20 +1,53 @@
-import kotlin.collections.ArrayList
+import kotlin.math.sqrt
 
 fun main() {
-    val n = 5
-    val arr = arrayOf(4, 2, -3, 1, 6)
-
-    subArrayWithSumZero(arr)
-
+    val a = primeSieve(15)
+    a.forEach { prime ->
+        println(prime)
+    }
 
 }
 
-fun reverseArray(arr: Array<Int>) : ArrayList<Int> {
-    //arr.reverse()
-    val size=arr.size
-    var newArray=ArrayList<Int>()
+fun findSecondLargestNumber(arr: IntArray): Int? {
+    if (arr.isEmpty()) return null
+    if (arr.size == 1) return arr[0]
 
-    for (i in arr.size downTo 1){
+    var largest = Int.MIN_VALUE
+    var secondLargest = Int.MIN_VALUE
+
+
+    for (i in arr.indices) {
+        if (arr[i] > largest) {
+            secondLargest = largest
+            largest = arr[i]
+        } else if (arr[i] > secondLargest && arr[i] != largest) {
+            secondLargest = arr[i]
+        }
+    }
+
+    return secondLargest
+}
+
+private fun removeWhiteSpaces(string: String): String {
+
+    val result: MutableList<Char> = ArrayList()
+
+    for (i in string) {
+        if (i != ' ') {
+            result.add(i)
+        }
+    }
+
+    return result.toString()
+}
+
+
+fun reverseArray(arr: Array<Int>): ArrayList<Int> {
+    //arr.reverse()
+    val size = arr.size
+    var newArray = ArrayList<Int>()
+
+    for (i in arr.size downTo 1) {
         newArray.add(i)
     }
 
@@ -22,20 +55,20 @@ fun reverseArray(arr: Array<Int>) : ArrayList<Int> {
 }
 
 fun reverseArraySaveSpace(arr: Array<Int>) {
-    var temp:Int?=null
-    for (i in 0..arr.size/2){
-        temp=arr[i]
-        arr[i]=arr[arr.size-i-1]
-        arr[arr.size-i-1]=temp
+    var temp: Int? = null
+    for (i in 0..arr.size / 2) {
+        temp = arr[i]
+        arr[i] = arr[arr.size - i - 1]
+        arr[arr.size - i - 1] = temp
     }
 }
 
 fun Array<Int>.reverseArray() {
-    var temp:Int?=null
-    for(i in 0..this.size/2){
-        temp=this[i]
-        this[i]=this[this.size-i-1]
-        this[this.size-i-1]=temp
+    var temp: Int? = null
+    for (i in 0..this.size / 2) {
+        temp = this[i]
+        this[i] = this[this.size - i - 1]
+        this[this.size - i - 1] = temp
     }
 }
 
@@ -46,16 +79,17 @@ fun Array<Int>.arrayMaxAndMin() {
      * Space complexity - O(n)
      */
 
-    var arr=this
-    var max=0; var min=0
+    var arr = this
+    var max = 0;
+    var min = 0
     for (i in arr.indices) {
-        min=arr[0]
-        max=arr[0]
-        if(min>arr[i]){
-            min=arr[i]
+        min = arr[0]
+        max = arr[0]
+        if (min > arr[i]) {
+            min = arr[i]
         }
-        if (max<arr[i]){
-            max=arr[i]
+        if (max < arr[i]) {
+            max = arr[i]
         }
     }
     print("$max $min")
@@ -67,11 +101,12 @@ fun Array<Int>.kThLargestAndSmallestInArray(k: Int) {
      * Time Complexity - O(nlog(n))
      * Space Complexity - same
      */
-    var arr=this
+    var arr = this
     arr.sort()
-    var max=0;var min=0
-    max=arr[arr.size-k]
-    min=arr[k]
+    var max = 0;
+    var min = 0
+    max = arr[arr.size - k]
+    min = arr[k]
 
     print("$max $min")
 }
@@ -116,7 +151,7 @@ fun trappingRainWater(n: Int, arr: Array<Int>) {
 
     for (i in arr.indices) {
 
-        if (arr[i] < height && (i !=0 || i != arr.lastIndex) ) {
+        if (arr[i] < height && (i != 0 || i != arr.lastIndex)) {
             waterQuantity += height - arr[i]
         }
 
@@ -127,18 +162,29 @@ fun trappingRainWater(n: Int, arr: Array<Int>) {
 
 }
 
-fun subArrayWithSumZero(arr: Array<Int>) {
-    /**
-     *  Question - https://practice.geeksforgeeks.org/problems/subarray-with-0-sum-1587115621/1
-     *
-     */
+fun primeSieve(n: Int): IntArray {
+    val primes = BooleanArray(n + 1) { true }
 
-    // Check if the array  already contains 0
-    if (arr.contains(0))
-        println("Yes")
-    else {
+    primes[0] = false
+    primes[1] = false
 
+    for (i in 2..(sqrt(n.toFloat()).toInt())) {
+        if (primes[i]) {
+            var j = 2
+            while (i * j <= n) {
+                primes[i * j] = false
+                j++
+            }
+        }
     }
+
+    val foundPrimes = mutableListOf<Int>()
+
+    primes.forEachIndexed { index, prime ->
+        if (prime)
+            foundPrimes.add(index)
+    }
+    return foundPrimes.toIntArray()
 }
 
 
